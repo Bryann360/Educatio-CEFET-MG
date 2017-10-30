@@ -3,13 +3,58 @@
 <head>
   <title>Educatio - CEFET-MG </title>
   <meta charset="utf-8">
-  <link href="css/bootstrap.css" rel="stylesheet">
-  <link href="gerencia-web-estilos-rodape.css" rel="stylesheet">
-  <link href="BLT-Web-Disciplinas.css" rel="stylesheet">
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script> 
+  <!-- CSS do Bootstrap -->
+  <link href="css/bootstrap.min.css" rel="stylesheet" />
+  <link href="css/bootstrap.css" rel="stylesheet"/>
+
+    <!-- CSS do grupo -->
+  <link href="" rel="stylesheet" />
+
+    <!-- Arquivos js -->
+  <script src="js/popper.js"></script>
+  <script src="js/jquery-3.2.1.js" type="text/javascript"></script>
+  <script src="js/bootstrap.min.js" type="text/javascript"></script>
+
+    <!-- Fontes e icones -->
+  <link href="css/nucleo-icons.css" rel="stylesheet">
+
+  <style type="text/css">
+    .text-center{
+      font-family: 'Abel', sans-serif;
+      color: #d8ac29;
+    }
+    
+    .fonteTexto{
+      font-family: 'Inconsolata', monospace;
+      font-size: 16px;
+    }
+
+    .btn-info {
+      background-color: #162e87;
+      border-color: #162e87;
+      color: #FFFFFF;
+      opacity: 1;
+      filter: alpha(opacity=100);
+    }
+
+    .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .show > .btn-info.dropdown-toggle {
+      background-color: #11277a;
+      color: #FFFFFF;
+      border-color: #11277a;
+    }
+  </style> 
+
  </head>
+
 <body>
+
+<!--
+   Grupo: BLT
+   Data de modificação: 30/10/2017
+   Autor: Letícia Hubner 
+      Objetivo da motificação: Padronizar o código de web
+--> 
+
 <div class="corpo">
   <div class="titulo">
   <h1><b>Gerenciamento de Disciplinas</b></h1>
