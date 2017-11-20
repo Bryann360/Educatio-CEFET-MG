@@ -3,17 +3,46 @@
 <head>
   <title>Educatio - CEFET-MG </title>
   <meta charset="utf-8">
-  <link href="css/bootstrap.css" rel="stylesheet">
-  <link href="gerencia-web-estilos-rodape.css" rel="stylesheet">
-  <link href="BLT-Web-Disciplinas.css" rel="stylesheet">
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script> 
+  <!-- CSS do Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap.css" rel="stylesheet"/>
+
+  <!-- CSS do grupo -->
+    <link href="BLT-Web-Disciplinas.css" rel="stylesheet">
+
+  <!-- Arquivos js -->
+    <script src="js/jquery-3.2.1.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+
+  <!-- Fontes e icones -->
+    <link href="https://fonts.googleapis.com/css?family=Abel|Inconsolata" rel="stylesheet">
+    <link href="css/nucleo-icons.css" rel="stylesheet">
+
+    <style type="text/css">
+      .btn-info {
+        background-color: #162e87;
+        border-color: #162e87;
+        color: #FFFFFF;
+        opacity: 1;
+        filter: alpha(opacity=100);
+      }
+      .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .show > .btn-info.dropdown-toggle {
+        background-color: #11277a;
+        color: #FFFFFF;
+        border-color: #11277a;
+      }
+      .fonteTexto{
+         font-family: 'Inconsolata', monospace;
+         font-size: 16px;
+      }
+    </style> 
+
  </head>
+
 </html>
+
 <body>
 </body>
-
-
 
 <?php
 $servername = "localhost";
@@ -45,11 +74,9 @@ $IDTurma = $_POST['idTurma'];
           echo "<h1>";
           echo "<b>Disciplina editada com sucesso!</b>";
           echo "</h1>";
-          echo "<div class=\"container-fluid\">
-                <div class=\"row\">
-                <div class=\"col-md-12 mb-3\">
-                <button style=\"margin-top: 70px;\"type=\"button\" class=\"btn btn-outline-info btn-block \" onclick=\"window.location.href='BLT-Web-Disciplinas.html'\">Pronto</button>
-                </div>
+          echo "<div class=\"row\">
+                <div class=\"col-md-4 ml-auto mr-auto\">
+                  <button type=\"button\" class=\"btn btn-info\" onclick=\"window.location.href='BLT-Web-Disciplinas.html'\">Pronto</button>
                 </div>
                 </div>";
           echo "</div>";

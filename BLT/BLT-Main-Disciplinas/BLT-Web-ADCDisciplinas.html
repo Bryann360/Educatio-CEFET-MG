@@ -1,59 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
-	<meta charset="utf-8">
-  	<!-- CSS do Bootstrap -->
-  <link href="css/bootstrap.min.css" rel="stylesheet" />
-  <link href="css/bootstrap.css" rel="stylesheet"/>
-
-    <!-- CSS do grupo -->
-  <link href="" rel="stylesheet" />
+  <title></title>
+  <meta charset="utf-8">
+    <!-- CSS do Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap.css" rel="stylesheet"/>
 
     <!-- Arquivos js -->
-  <script src="js/popper.js"></script>
-  <script src="js/jquery-3.2.1.js" type="text/javascript"></script>
-  <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/jquery-3.2.1.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
 
     <!-- Fontes e icones -->
-  <link href="css/nucleo-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Abel|Inconsolata" rel="stylesheet">
+    <link href="css/nucleo-icons.css" rel="stylesheet">
 
-  <style type="text/css">
-    .text-center{
-      font-family: 'Abel', sans-serif;
-      color: #d8ac29;
-    }
-    
-    .fonteTexto{
-      font-family: 'Inconsolata', monospace;
-      font-size: 16px;
-    }
+    <!-- Deve estar em CSS externo, mas como é apenas um exemplo declaramos aqui -->
 
-    .btn-info {
-      background-color: #162e87;
-      border-color: #162e87;
-      color: #FFFFFF;
-      opacity: 1;
-      filter: alpha(opacity=100);
-    }
-
-    .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .show > .btn-info.dropdown-toggle {
-      background-color: #11277a;
-      color: #FFFFFF;
-      border-color: #11277a;
-    }
-  </style>
+    <style type="text/css">
+        .text-center{
+           font-family: 'Abel', sans-serif;
+           color: #d8ac29;
+        }
+        .fonteTexto{
+           font-family: 'Inconsolata', monospace;
+           font-size: 16px;
+        }
+        .btn-info {
+          background-color: #162e87;
+          border-color: #162e87;
+          color: #FFFFFF;
+          opacity: 1;
+          filter: alpha(opacity=100);
+        }
+        .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .show > .btn-info.dropdown-toggle {
+          background-color: #11277a;
+          color: #FFFFFF;
+          border-color: #11277a;
+        }
+    </style>
 
 </head>
 
 <body>
-
-<!--
-   Grupo: BLT
-   Data de modificação: 30/10/2017
-   Autor: Letícia Hubner 
-      Objetivo da motificação: Padronizar o código de web
---> 
 
 <div class="wrapper">     
 
@@ -64,14 +53,15 @@
 
                         <h2 class="text-center">Adicionar Disciplina</h2>
 
-                        <form class="contact-form" action="BLT-Web-ADCDisciplinas.php" method="post">
-                            <div class="row">
+                         <form class="contact-form" action="BLT-Web-ADCDisciplinas.php" method="post">
+
+                         <div class="row">
                                 <label class="fonteTexto">Nome da disciplina</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">
-                                        <i class="nc-icon nc-book-bookmark"></i>
+                                        <i class="nc-icon nc-ruler-pencil"></i>
                                     </span>
-                                    <input name="nomeDisciplina" type="text" class="form-control" placeholder="Nome" required="required">
+                                    <input type="text" class="form-control" placeholder="Nome" required="required" name="nomeDisciplina">
                                 </div>
                             </div>
 
@@ -79,29 +69,47 @@
                                 <label class="fonteTexto">ID da turma</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">
-                                        <i class="nc-icon nc-credit-card"></i>
+                                        <i class="nc-icon nc-hat-3"></i>
                                     </span>
-                                    <input name="idTurma" type="number" class="form-control" placeholder="ID" required="required">
+                                    <input type="number" class="form-control" placeholder="ID" required="required" name="idTurma">
                                 </div>
                             </div>
 
                             <div class="row">
-                                <label class="fonteTexto">Carga horária minima</label>
+                                <label class="fonteTexto">ID do professor</label>
                                 <div class="input-group">
                                     <span class="input-group-addon">
-                                        <i class="nc-icon nc-check-2"></i>
+                                        <i class="nc-icon nc-circle-10"></i>
                                     </span>
-                                    <input type="number" name="cargaHoraria" class="form-control" id="validationServer02" placeholder="" value="" required>
+                                    <input type="text" class="form-control" placeholder="ID" required="required" name="idProfessor">
                                 </div>
-                            </div> 
+                            </div>
 
                             <div class="row">
-                                <div class="col-md-4 ml-auto mr-auto">
-                                <button type="button" class="btn btn-info  btn-round">Pronto</button>
+                                <label class="fonteTexto">Carga horária minima (horas)</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="nc-icon nc-time-alarm"></i>
+                                    </span>
+                                    <input type="number" class="form-control" placeholder="ID" required="required" name="cargaHoraria">
+                                </div>
                             </div>
-                      </div>
-                </form>
+                            <br>
 
+                             <div class="row">
+                                <div class="col-md-4 ml-auto mr-auto">
+                                <input type="submit" class="btn btn-info" value="Pronto">
+                                </div>
+                            </div>
+
+                            </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>
 
 </body>
 </html>
