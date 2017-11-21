@@ -24,8 +24,10 @@ $username = "root";
 $password = "";
 $bdNome = "educatio";
 // Create connection
+
 $conn = new mysqli($servername, $username, $password, $bdNome);
 // Check connection
+
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
@@ -34,50 +36,45 @@ $IDacervo = $_POST['IDAcervo'];
 $novaDataRes = new DateTime($dataDevolucao);
 $novaDataRes->add(new DateInterval('P1D'));
 $novaDataRes = $novaDataRes->format('Y-m-d');
-$sql = "SELECT dataReserva, id FROM reservas WHERE idAcervo = '$IDacervo' AND ativo='S' AND emprestou = 'N' ORDER BY id";
-$result = $conn->query($sql);
-if ($result->num_rows > 0) {
-    while($row = $result->fetch_assoc()) {
-      $sqlo = "UPDATE reservas SET dataReserva = '$novaDataRes' WHERE idAcervo='$IDacervo' AND id= '{$row['id']}'";
-      if ($conn->query($sqlo) === TRUE) {
-      }
-      $novaDataRes = new DateTime($novaDataRes);
-      $novaDataRes->add(new DateInterval('P7D'));
-      $novaDataRes = $novaDataRes->format('Y-m-d');
-        $sqlk = "SELECT id, dataReserva, idAluno, idAcervo, tempoEspera FROM reservas WHERE idAcervo = '$IDacervo' AND ativo='S' AND emprestou = 'N' ORDER BY id LIMIT 1";
-        $result = $conn->query($sqlk);
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-            $sqlo = "UPDATE reservas SET emprestou = 'S' WHERE id = '{$row['id']}'";
-            if ($conn->query($sqlo) === TRUE) {
-              $dataDevoluc = new DateTime($row["dataReserva"]);
-              $dataDevoluc->add(new DateInterval('P7D'));
-              $dataDevoluc = $dataDevoluc->format('Y-m-d');
-              $sqlb = "INSERT INTO emprestimos (idAluno, idAcervo, dataEmprestimo, dataPrevisaoDevolucao, dataDevolucao, multa, ativo) VALUES ('{$row['idAluno']}', '{$row['idAcervo']}', '{$row['dataReserva']}', '$dataDevoluc', '$dataDevoluc', '0', 'S')";
-              if ($conn->query($sqlb) === TRUE) {
-              }
-            }
-            }
-        }else{
-        }
-    }
-}else{
-}
+
+$Datadevolucaoatt = new DateTime($dataDevolucao);
+$Datadevolucaoatt = $Datadevolucaoatt->format('Y-m-d');
+
 $sql = "SELECT dataPrevisaoDevolucao, multa FROM emprestimos WHERE idAcervo = '$IDacervo' AND ativo='S' LIMIT 1";
+
 $result = $conn->query($sql);
+
 $multa= 0;
+
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
+
+
+
       $dataPrazo= date_create($row["dataPrevisaoDevolucao"]);
       $dataEntrega= date_create($dataDevolucao);
       $diff=date_diff($dataEntrega,$dataPrazo);
+
+
+
       if($diff->format("%R%a")>=0){
       }else{
         $multa = $diff->format("%a");
       }
-        echo $multa;
-        $sql = "UPDATE emprestimos SET ativo='N' WHERE idAcervo='$IDacervo' AND ativo='S' ORDER BY id ASC LIMIT 1";
+      if($multa<=0){
+        $multa = 0;
+      }
+
+
+
+
+
+
+
+        $sql = "UPDATE emprestimos SET ativo='N', multa='$multa',datadevolucao='$Datadevolucaoatt' WHERE idAcervo='$IDacervo' AND ativo='S' ORDER BY id ASC LIMIT 1";
+
         if ($conn->query($sql) === TRUE) {
+
           if($multa > 1){
           echo "<div class=\"corpo\">";
           echo "<div class=\"titulo\">";
@@ -95,7 +92,11 @@ if ($result->num_rows > 0) {
                 </div>";
           echo "</div>";
           echo "</div>";
+
+
           }else{
+
+
             echo "<div class=\"corpo\">";
             echo "<div class=\"titulo\">";
             echo "<h1>";
@@ -132,5 +133,64 @@ if ($result->num_rows > 0) {
             echo "</div>";
             echo "</div>";
 }
+
+
+
+
+$sql = "SELECT dataReserva, id FROM reservas WHERE idAcervo = '$IDacervo' AND ativo='S' AND emprestou = 'N' ORDER BY id";
+
+$result = $conn->query($sql);
+
+
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+
+
+
+      $sqlo = "UPDATE reservas SET dataReserva = '$novaDataRes' WHERE idAcervo='$IDacervo' AND id= '{$row['id']}'";
+
+      if ($conn->query($sqlo) === TRUE) {
+         
+      }
+
+
+      $novaDataRes = new DateTime($novaDataRes);
+      $novaDataRes->add(new DateInterval('P7D'));
+      $novaDataRes = $novaDataRes->format('Y-m-d');
+
+      $sqlk = "SELECT id, dataReserva, idAluno, idAcervo, tempoEspera FROM reservas WHERE idAcervo = '$IDacervo' AND ativo='S' AND emprestou = 'N' ORDER BY id LIMIT 1";
+
+        $result = $conn->query($sqlk);
+
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+
+
+            $sqlo = "UPDATE reservas SET emprestou = 'S' WHERE id = '{$row['id']}'";
+
+            if ($conn->query($sqlo) === TRUE) {
+
+              $dataDevoluc = new DateTime($row["dataReserva"]);
+              $dataDevoluc->add(new DateInterval('P7D'));
+              $dataDevoluc = $dataDevoluc->format('Y-m-d');
+
+              $sqlb = "INSERT INTO emprestimos (idAluno, idAcervo, dataEmprestimo, dataPrevisaoDevolucao, dataDevolucao, multa, ativo) VALUES ('{$row['idAluno']}', '{$row['idAcervo']}', '{$row['dataReserva']}', '$dataDevoluc', '$dataDevoluc', '0', 'S')";
+
+              if ($conn->query($sqlb) === TRUE) {
+              }
+            }
+            }
+        }else{
+        }
+    }
+}else{
+}
+
+
+
+
+
+
+
 $conn->close();
 ?>

@@ -33,23 +33,30 @@ if ($conn->connect_error) {
 
 $IDaluno = $_POST['IDaluno'];
 $IDacervo = $_POST['IDacervo'];
-$datadevolucao = $_POST['datadevolucao'];
 $multa = "0";
 $ativo = "S";
 
 
 $sql = "SELECT idAluno, idAcervo, dataEmprestimo, dataPrevisaoDevolucao, dataDevolucao, multa, ativo FROM emprestimos WHERE idAcervo = '$IDacervo' AND ativo='S'";
 
-$datacriacao = date('Y-m-d')
-;
+$datacriacao = date('Y-m-d');
+$dataDevv = new DateTime($datacriacao);
+$dataDevv->add(new DateInterval('P7D'));
+$dataDevv = $dataDevv->format('Y-m-d');
+
 
 $result = $conn->query($sql);
-$dataComp= "2016-12-12";
+
+
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
     	if($IDacervo == $row["idAcervo"]){
 
-    			$sqlio = "SELECT idAluno, idAcervo, dataReserva, tempoEspera, emprestou, ativo FROM reservas WHERE idAcervo = '$IDacervo' AND ativo='S'";
+
+
+
+
+    			$sqlio = "SELECT idAluno, idAcervo, dataReserva, tempoEspera, emprestou, ativo FROM reservas WHERE idAcervo = '$IDacervo' AND ativo='S' ORDER BY id ASC";
 
 				$resulta = $conn->query($sqlio);
 
@@ -58,32 +65,28 @@ if ($result->num_rows > 0) {
 				    while($rows = $resulta->fetch_assoc()) {
 			    		if($IDacervo == $rows["idAcervo"]){
 
-			    			$dataCompa = date_create($dataComp);
-				      		$dataRes = date_create($rows["dataReserva"]);
-				      		$diferenca = date_diff($dataCompa,$dataRes);
 
 
-				      		$dife = $diferenca->format("%R%a");
 
-			    			if($dife>0){
-			    				$dataComp=$rows["dataReserva"];
-			    				$daysDife=$rows["tempoEspera"];
-			    			}
+			    			$dataUltimaRes = $rows["dataReserva"];
+
+			    			
+
+
+				      	
 			    		}
+			    		
 			    	}
-			    	$daysDif = 'P'.$daysDife.'D';
-		    		$dataCompe = new DateTime($dataComp);
-		    		$dataCompe->add(new DateInterval($daysDif));
-			    	$dataCompe->add(new DateInterval('P1D'));
-		    		$datarres = $dataCompe->format('Y-m-d');
 
-		    		$datamaaior= date_create($datadevolucao);
-		      		$datameenor= date_create($datacriacao);
-		      		$temp=date_diff($datameenor,$datamaaior);
-		      		$tempoesp = $temp->format("%a");
+		    		
+			    	$dataCria = new DateTime($dataUltimaRes);
+					$dataCria->add(new DateInterval('P8D'));
+					$dataCria = $dataCria->format('Y-m-d');
+
+		    		
 
 
-		    		$sqlii = "INSERT INTO reservas (idAluno, idAcervo, dataReserva, tempoEspera, emprestou, ativo) VALUES ('$IDaluno', '$IDacervo', '$datarres', '$tempoesp', 'N', 'S')";
+		    		$sqlii = "INSERT INTO reservas (idAluno, idAcervo, dataReserva, tempoEspera, emprestou, ativo) VALUES ('$IDaluno', '$IDacervo', '$dataCria', '7', 'N', 'S')";
 
 
 				if ($conn->query($sqlii) === TRUE) {
@@ -93,7 +96,7 @@ if ($result->num_rows > 0) {
 	            echo "<h1>";
 	            echo "<b>Reserva efetuada!</b>";
 	            echo "</h1>";
-	             echo "<h1><h5>Acervo já está emprestado... Reserva efetuada para o dia: ".$datarres."</h5></h1>" ;
+	             echo "<h1><h5>Acervo já está emprestado... Reserva efetuada para o dia: ".$dataCria."</h5></h1>" ;
 	            echo "<div class=\"row\">
 	                  <div class=\"col-md-12 mb-3\">
 	                  <div class=\"container-fluid\">
@@ -143,12 +146,10 @@ if ($result->num_rows > 0) {
 
 
 
-			$datamaaior= date_create($datadevolucao);
-      		$datameenor= date_create($datacriacao);
-      		$temp=date_diff($datameenor,$datamaaior);
-      		$tempoesp = $temp->format("%a");
+			
+      		
 
-			$sqlii = "INSERT INTO reservas (idAluno, idAcervo, dataReserva, tempoEspera, emprestou, ativo) VALUES ('$IDaluno', '$IDacervo', '$dataReserva', '$tempoesp', 'N', 'S')";
+			$sqlii = "INSERT INTO reservas (idAluno, idAcervo, dataReserva, tempoEspera, emprestou, ativo) VALUES ('$IDaluno', '$IDacervo', '$dataReserva', '7', 'N', 'S')";
 
 			if ($conn->query($sqlii) === TRUE) {
 				echo "<div class=\"container-fluid\">";
@@ -177,7 +178,7 @@ if ($result->num_rows > 0) {
 		}
 
 
-    		$sql = "SELECT idAluno, idAcervo, dataEmprestimo, dataPrevisaoDevolucao, dataDevolucao, multa, ativo FROM emprestimos WHERE idAcervo = '$IDacervo' AND ativo='S'";
+    		$sql = "SELECT idAluno, idAcervo, datacriacao, dataPrevisaoDevolucao, dataDevolucao, multa, ativo FROM emprestimos WHERE idAcervo = '$IDacervo' AND ativo='S'";
 
 
 
@@ -190,10 +191,7 @@ if ($result->num_rows > 0) {
     		$datanova = $dataprev->format('Y-m-d');
 
 
-    		$datamaior= date_create($datadevolucao);
-      		$datamenor= date_create($datacriacao);
-      		$tempo=date_diff($datamenor,$datamaior);
-      		$time = $tempo->format("%a");
+    		
 				
 
 
@@ -202,7 +200,7 @@ if ($result->num_rows > 0) {
 
 }else{
 
-	$sql = "INSERT INTO emprestimos (idAluno, idAcervo, dataEmprestimo, dataPrevisaoDevolucao, dataDevolucao, multa, ativo) VALUES ('$IDaluno', '$IDacervo', '$datacriacao', '$datadevolucao', '$datadevolucao', '$multa', '$ativo')";
+	$sql = "INSERT INTO emprestimos (idAluno, idAcervo, dataEmprestimo, dataPrevisaoDevolucao, dataDevolucao, multa, ativo) VALUES ('$IDaluno', '$IDacervo', '$datacriacao', '$dataDevv', '$dataDevv', '$multa', '$ativo')";
 
 
 	if ($conn->query($sql) === TRUE) {
